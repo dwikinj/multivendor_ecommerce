@@ -4,8 +4,14 @@ import {
   Geist,
   Geist_Mono,
   Barlow,
-  Montserrat_Underline,
+  Montserrat,
 } from "next/font/google";
+
+// clerk
+import {
+  ClerkProvider,
+
+} from '@clerk/nextjs'
 
 // Global css
 import "./globals.css";
@@ -30,10 +36,10 @@ const barlowFont = Barlow({
   weight: ["400", "700"],
 });
 
-const montserratUnderlineFont = Montserrat_Underline({
-  variable: "--font-montserrat-underline",
+const montserratFont = Montserrat({
+  variable: "--font-montserrat", // Updated variable name
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400"], // Keep weight 400, adjust if needed
 });
 
 // Metadata
@@ -48,19 +54,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSansFont.variable} ${geistMonoFont.variable} ${barlowFont.variable} ${montserratUnderlineFont.variable} antialiased`}
+        className={`${geistSansFont.variable} ${geistMonoFont.variable} ${barlowFont.variable} ${montserratFont.variable} antialiased`}
       >
         <ThemeProvider
           attribute={"class"}
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        >
+        >        
           {children}
         </ThemeProvider>
       </body>
     </html>
+    </ClerkProvider>
   );
 }
